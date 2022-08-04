@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "653098273764",
+    "project_id": "quiz-me-2664c",
+    "storage_bucket": "quiz-me-2664c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:653098273764:android:712652ec1c8d5e07ba95f1",
+        "android_client_info": {
+          "package_name": "com.wxyzabcd.quizme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "653098273764-cjcfhao06i4ed3s3cm6vqmk2n9g976i9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUOdJfuVjJ9OvMIqYBiW_03wtMoIBt6J8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "653098273764-cjcfhao06i4ed3s3cm6vqmk2n9g976i9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
