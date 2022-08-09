@@ -10,7 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-import com.example.quizme.AdminPanelActivities.AdminPanel;
+
+import com.example.quizme.AdminPanelActivities.AdminPanelActivity;
 import com.example.quizme.Classes.Data;
 import com.example.quizme.databinding.FragmentHomeBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -102,8 +103,8 @@ public class HomeFragment extends Fragment {
         binding.manageAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), AdminPanel.class);
-                startActivity(intent);
+                Intent intent = new Intent(getContext(), AdminPanelActivity.class);
+                startActivity(new Intent(getContext(), AdminPanelActivity.class));
                 //getActivity().finish();
 
             }

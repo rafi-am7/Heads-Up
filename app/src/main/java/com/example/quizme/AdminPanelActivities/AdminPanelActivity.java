@@ -16,7 +16,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
-public class AdminPanel extends AppCompatActivity {
+public class AdminPanelActivity extends AppCompatActivity {
     private ActivityAdminPanelBinding binding;
     String uid;
     FirebaseFirestore database;
@@ -35,7 +35,7 @@ public class AdminPanel extends AppCompatActivity {
                 if(error!=null)
                 {
 
-                    Toast.makeText(AdminPanel.this,"failed",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminPanelActivity.this,"failed",Toast.LENGTH_SHORT).show();
                 }
                 if(value!=null)
                 {
@@ -53,7 +53,7 @@ public class AdminPanel extends AppCompatActivity {
             public void onClick(View v) {
                 if(adminRule>0)
                 {
-                    Intent intent = new Intent(AdminPanel.this, InsertQuizActivity.class);
+                    Intent intent = new Intent(AdminPanelActivity.this, InsertQuizActivity.class);
                     startActivity(intent);
                 }
 
@@ -64,7 +64,7 @@ public class AdminPanel extends AppCompatActivity {
             public void onClick(View v) {
                 if(adminRule>0)
                 {
-                    Intent intent = new Intent(AdminPanel.this, EditBioAdminActivity.class);
+                    Intent intent = new Intent(AdminPanelActivity.this, EditBioAdminActivity.class);
                     startActivity(intent);
 
                 }
@@ -76,7 +76,7 @@ public class AdminPanel extends AppCompatActivity {
             public void onClick(View v) {
                 if(adminRule>0)
                 {
-                    Intent intent = new Intent(AdminPanel.this, WithdrawRequestAdminPanelActivity.class);
+                    Intent intent = new Intent(AdminPanelActivity.this, WithdrawRequestAdminPanelActivity.class);
                     startActivity(intent);
                 }
             }

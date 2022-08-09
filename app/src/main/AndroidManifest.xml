@@ -19,16 +19,16 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".WithdrawRequestAdminPanelActivity"
+            android:name=".AdminPanelActivities.WithdrawRequestAdminPanelActivity"
             android:exported="false" />
         <activity
-            android:name=".EditBioAdminActivity"
+            android:name=".AdminPanelActivities.AdminPanelActivity"
             android:exported="false" />
         <activity
-            android:name=".InsertQuizActivity"
+            android:name=".AdminPanelActivities.EditBioAdminActivity"
             android:exported="false" />
         <activity
-            android:name=".AdminPanel"
+            android:name=".AdminPanelActivities.InsertQuizActivity"
             android:exported="false" />
         <activity
             android:name=".WaitingActivity"
