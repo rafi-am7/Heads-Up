@@ -1,5 +1,6 @@
 package com.example.quizme;
-
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -70,6 +71,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -77,6 +79,7 @@ import java.util.Locale;
 import java.util.Random;
 
 public class QuizActivity extends AppCompatActivity {
+
 
     private ActivityQuizBinding binding;
     private ArrayList<Question> questions;
@@ -110,6 +113,7 @@ public class QuizActivity extends AppCompatActivity {
         progressDialog.setMessage("Loading quizes...");
         progressDialog.setCancelable(false);
         progressDialog.show();
+
         binding.quitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,6 +124,7 @@ public class QuizActivity extends AppCompatActivity {
                     public void onInitializationComplete(InitializationStatus initializationStatus) {
                     }
                 });
+                showAds();
 
 /*        AdRequest adRequest = new AdRequest.Builder().build();
 
@@ -138,7 +143,19 @@ public class QuizActivity extends AppCompatActivity {
                         Log.d("reward", "Ad was loaded.");
                     }
                 });*/
-                showAds();
+
+/*
+                String ip;
+                try(final DatagramSocket socket = new DatagramSocket()){
+                    socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
+                    ip = socket.getLocalAddress().getHostAddress();
+                    Toast.makeText()
+                } catch (SocketException e) {
+                    e.printStackTrace();
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                }
+*/
 
 
 
