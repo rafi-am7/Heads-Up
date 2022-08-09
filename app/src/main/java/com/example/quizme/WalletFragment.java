@@ -35,7 +35,7 @@ public class WalletFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-      binding = FragmentWalletBinding.inflate(inflater, container, false);
+        binding = FragmentWalletBinding.inflate(inflater, container, false);
       /*    database = FirebaseFirestore.getInstance();
 
         database.collection("users")

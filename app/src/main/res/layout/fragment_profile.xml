@@ -6,189 +6,180 @@
     android:layout_height="match_parent"
     android:background="@drawable/ic_app_background"
     tools:context=".ProfileFragment">
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+
+
+
+
         <LinearLayout
-            android:id="@+id/llMemberDetailsProfile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="20dp"
-            android:gravity="center_horizontal"
+            android:padding="20dp"
             android:orientation="vertical">
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/llMemberDetailsProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/userAvatarIV"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_centerHorizontal="true"
-                    android:paddingBottom="10dp"
-                    android:src="@drawable/avatar" />
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/userAvatarIV"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_centerHorizontal="true"
+                        android:paddingBottom="10dp"
+                        android:src="@drawable/avatar" />
 
-                <ImageView
-                    android:id="@+id/uploadPPButton"
+                    <ImageView
+                        android:id="@+id/uploadPPButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/userAvatarIV"
+                        android:layout_marginLeft="-16dp"
+                        android:layout_marginTop="-32dp"
+                        android:layout_toRightOf="@id/userAvatarIV"
+                        android:src="@drawable/ic_baseline_camera_alt_24">
+
+                    </ImageView>
+                </RelativeLayout>
+
+
+                <TextView
+                    android:id="@+id/tvName"
+                    style="@style/TextAppearance.AppCompat.Headline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/userAvatarIV"
-                    android:layout_marginLeft="-16dp"
-                    android:layout_marginTop="-32dp"
-                    android:layout_toRightOf="@id/userAvatarIV"
-                    android:src="@drawable/ic_baseline_camera_alt_24">
-
-                </ImageView>
-            </RelativeLayout>
-
-
-            <TextView
-                android:id="@+id/tvName"
-                style="@style/TextAppearance.AppCompat.Headline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/userAvatarIV"
-                android:layout_centerHorizontal="true"
-                android:text="Mr. x"
-                android:textStyle="bold" />
-            <LinearLayout
-                android:id="@+id/uploadLL"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content">
-                <Button
-                    android:id="@+id/cancelButton"
-                    style="@style/TextAppearance.AppCompat.Title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_below="@id/tvName"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="20dp"
-                    android:padding="8dp"
-                    android:text="Cancel"
-                    android:layout_marginRight="10dp"
-                    android:background="@color/color_error"
-                    />
-                <Button
-                    android:id="@+id/saveButton"
-                    android:layout_marginLeft="10dp"
-                    style="@style/TextAppearance.AppCompat.Title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_below="@id/tvName"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="20dp"
-                    android:padding="8dp"
-                    android:text="Save"
-                    android:background="#20A52D"
-                    />
+                    android:text="Mr. x"
+                    android:textStyle="bold" />
+                <LinearLayout
+                    android:id="@+id/uploadLL"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/cancelButton"
+                        style="@style/TextAppearance.AppCompat.Title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_below="@id/tvName"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="20dp"
+                        android:padding="8dp"
+                        android:text="Cancel"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/color_error"
+                        />
+                    <Button
+                        android:id="@+id/saveButton"
+                        android:layout_marginLeft="10dp"
+                        style="@style/TextAppearance.AppCompat.Title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_below="@id/tvName"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="20dp"
+                        android:padding="8dp"
+                        android:text="Save"
+                        android:background="#20A52D"
+                        />
+
+
+                </LinearLayout>
+
 
 
             </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Details"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/ivEditInfo"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:src="@drawable/ic_edit_info" />
+
+            </RelativeLayout>
+
+            <TextView
+                style="@style/TeacherInfoText"
+                android:text="Email" />
+
+            <TextView
+                android:id="@+id/tvEmail"
+                style="@style/TeacherInfoSubText"
+                android:layout_height="wrap_content"
+                android:hint="example@gmail.com" />
+
+            <TextView
+                style="@style/TeacherInfoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reward Points" />
+
+            <TextView
+                android:id="@+id/tvRewardPoints"
+                style="@style/TeacherInfoSubText"
+                android:hint="10" />
+
+            <TextView
+                style="@style/TeacherInfoText"
+                android:text="Play Points" />
+
+            <TextView
+                android:id="@+id/tvPlayPoints"
+                style="@style/TeacherInfoSubText"
+                android:hint="10" />
+            <TextView
+                style="@style/TeacherInfoText"
+                android:text="Total Points" />
+
+            <TextView
+                android:id="@+id/tvTotalPoints"
+                style="@style/TeacherInfoSubText"
+                android:hint="10" />
+
 
 
 
         </LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tvDetails"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="Details"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:visibility="gone"
-                android:id="@+id/ivEditInfo"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:src="@drawable/ic_edit_info" />
-
-        </RelativeLayout>
-
-        <TextView
-            style="@style/TeacherInfoText"
-            android:text="User Name" />
-
-        <TextView
-            android:id="@+id/tvUserName"
-            style="@style/TeacherInfoSubText"
-            android:layout_height="wrap_content"
-            android:hint="x112" />
-        <TextView
-            style="@style/TeacherInfoText"
-            android:text="Email" />
-
-        <TextView
-            android:id="@+id/tvEmail"
-            style="@style/TeacherInfoSubText"
-            android:layout_height="wrap_content"
-            android:hint="example@gmail.com" />
-
-        <TextView
-            style="@style/TeacherInfoText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reward Points" />
-
-        <TextView
-            android:id="@+id/tvRewardPoints"
-            style="@style/TeacherInfoSubText"
-            android:hint="10" />
-
-        <TextView
-            style="@style/TeacherInfoText"
-            android:text="Play Points" />
-
-        <TextView
-            android:id="@+id/tvPlayPoints"
-            style="@style/TeacherInfoSubText"
-            android:hint="10" />
-        <TextView
-            style="@style/TeacherInfoText"
-            android:text="Total Points" />
-
-        <TextView
-            android:id="@+id/tvTotalPoints"
-            style="@style/TeacherInfoSubText"
-            android:hint="10" />
-
-
-
-
-    </LinearLayout>
-
-
-</ScrollView>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

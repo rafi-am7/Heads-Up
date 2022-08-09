@@ -343,12 +343,12 @@ public class QuizActivity extends AppCompatActivity {
         if (selectedAnswer.equals(question.getAnswer())) {
             correctAnswers++;
             //push database
-           // radioButton.setBackground(getResources().getDrawable(R.drawable.option_right));
+            // radioButton.setBackground(getResources().getDrawable(R.drawable.option_right));
             return true;
         } else {
             //showAnswer();
-           //radioButton.setBackground(getResources().getDrawable(R.drawable.option_wrong));
-           return false;
+            //radioButton.setBackground(getResources().getDrawable(R.drawable.option_wrong));
+            return false;
         }
     }
 
@@ -416,8 +416,8 @@ public class QuizActivity extends AppCompatActivity {
                Toast.makeText(this,"Ip Address: 1",Toast.LENGTH_SHORT ).show();*/
             //   Toast.makeText(this,"Ip Address: "+ Formatter.formatIpAddress( wifiManager.getConnectionInfo().getIpAddress()),Toast.LENGTH_SHORT ).show();
 
-               // getIp();
-                //Toast.makeText(this,"Location"+locationCountry,Toast.LENGTH_SHORT).show();
+            // getIp();
+            //Toast.makeText(this,"Location"+locationCountry,Toast.LENGTH_SHORT).show();
 
 
             case R.id.option_1:
@@ -440,13 +440,13 @@ public class QuizActivity extends AppCompatActivity {
                 // reset();
                 /*if(index <= questions.size()) {*/
                 index++;
-               database
+                database
                         .collection("users")
                         .document(uid).update("index", index);
 
                 //push tabase
 
-            //    setNextQuestion();
+                //    setNextQuestion();
                 int radioId = binding.radioGroup.getCheckedRadioButtonId();
                 RadioButton selected = findViewById(radioId);
                 Intent intent = new Intent(QuizActivity.this, WaitingActivity.class);
@@ -484,32 +484,32 @@ public class QuizActivity extends AppCompatActivity {
                 break;
         }
     }
-  /*  void checkAvailableConnection() {
-        ConnectivityManager connMgr = (ConnectivityManager) this
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
+    /*  void checkAvailableConnection() {
+          ConnectivityManager connMgr = (ConnectivityManager) this
+                  .getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        final android.net.NetworkInfo wifi = connMgr
-                .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+          final android.net.NetworkInfo wifi = connMgr
+                  .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-        final android.net.NetworkInfo mobile = connMgr
-                .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+          final android.net.NetworkInfo mobile = connMgr
+                  .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-        if (wifi.isAvailable()) {
+          if (wifi.isAvailable()) {
 
-            WifiManager myWifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
-            WifiInfo myWifiInfo = myWifiManager.getConnectionInfo();
-            int ipAddress = myWifiInfo.getIpAddress();
-            System.out.println("WiFi address is "
-                    + android.text.format.Formatter.formatIpAddress(ipAddress));
+              WifiManager myWifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
+              WifiInfo myWifiInfo = myWifiManager.getConnectionInfo();
+              int ipAddress = myWifiInfo.getIpAddress();
+              System.out.println("WiFi address is "
+                      + android.text.format.Formatter.formatIpAddress(ipAddress));
 
-        } else if (mobile.isAvailable()) {
+          } else if (mobile.isAvailable()) {
 
-            GetLocalIpAddress();
-            Toast.makeText(this, "3G Available", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(this, "No Network Available", Toast.LENGTH_LONG).show();
-        }
-    }*/
+              GetLocalIpAddress();
+              Toast.makeText(this, "3G Available", Toast.LENGTH_LONG).show();
+          } else {
+              Toast.makeText(this, "No Network Available", Toast.LENGTH_LONG).show();
+          }
+      }*/
     private String GetLocalIpAddress() {
         try {
             for (Enumeration<NetworkInterface> en = NetworkInterface
@@ -537,9 +537,9 @@ public class QuizActivity extends AppCompatActivity {
         Network[] networks = cm.getAllNetworks();
         for(int i = 0; i < networks.length; i++) {*/
 
-           // NetworkCapabilities caps = cm.getNetworkCapabilities(networks[i]);
-            //Toast.makeText(this,"Network : "+i+ " "+networks[i].toString(),Toast.LENGTH_SHORT ).show();
-            //Toast.makeText(this,"Vpn Capability: "+i+"Cap"+caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_VPN),Toast.LENGTH_SHORT ).show();
+        // NetworkCapabilities caps = cm.getNetworkCapabilities(networks[i]);
+        //Toast.makeText(this,"Network : "+i+ " "+networks[i].toString(),Toast.LENGTH_SHORT ).show();
+        //Toast.makeText(this,"Vpn Capability: "+i+"Cap"+caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_VPN),Toast.LENGTH_SHORT ).show();
 
 
 /*
@@ -548,8 +548,8 @@ public class QuizActivity extends AppCompatActivity {
             Log.i(TAG, "NOT_VPN capability is: " + caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_VPN));
 */
 
-        }
     }
+}
 
  /*   @Override
     public void onLocationChanged(@NonNull Location location) {
@@ -578,4 +578,4 @@ public class QuizActivity extends AppCompatActivity {
 
     }*/
 /*
-*/
+ */

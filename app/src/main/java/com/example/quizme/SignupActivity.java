@@ -58,17 +58,12 @@ public class SignupActivity extends AppCompatActivity {
 
     }
     public void registerUser() {
-        final String email, fullName, password, userName,phoneNumber;
+        final String email, fullName, password,phoneNumber;
         email = binding.userEmailSU.getText().toString().trim();//trim spaces may be
         fullName = binding.userFullNameSU.getText().toString().trim();
         password = binding.userPasswordSU.getText().toString().trim();
-        userName = binding.userNameSignUp.getText().toString().trim();
         phoneNumber= binding.userPhoneSU.getText().toString().trim();
-        if (userName.isEmpty()) {
-            binding.userNameSignUp.setError("Please Enter Username!");
-            binding.userNameSignUp.requestFocus(); // showing automatically
-            return;
-        }
+
         if (fullName.isEmpty()) {
             binding.userFullNameSU.setError("Please Enter Full Name!");
             binding.userFullNameSU.requestFocus(); // showing automatically
@@ -103,7 +98,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    User userObj = new User(userName, fullName,email,phoneNumber, password);
+                    User userObj = new User( fullName,email,phoneNumber, password);
                     uid = task.getResult().getUser().getUid();
 
                     database
@@ -123,9 +118,9 @@ public class SignupActivity extends AppCompatActivity {
                                                     Toast.makeText(SignupActivity.this,"Please try again later.",Toast.LENGTH_LONG).show();
                                             }
                                         });
-                                       // Intent intent =new Intent(SignupActivity.this, MainActivity.class);
+                                        // Intent intent =new Intent(SignupActivity.this, MainActivity.class);
                                         //intent.putExtra("uid", uid);
-                                       // startActivity(intent);
+                                        // startActivity(intent);
 
                                         //finish();
                                     } else {
@@ -141,7 +136,7 @@ public class SignupActivity extends AppCompatActivity {
 
 
                 } else {
-                  //  binding.markerProgressSignUp.setVisibility(View.GONE);
+                    //  binding.markerProgressSignUp.setVisibility(View.GONE);
                     binding.errorMessageText.setText("You are already registered!");
                     binding.errorMessageText.setTextColor(ContextCompat.getColor(SignupActivity.this, R.color.color_wrong));
                     binding.errorMessageText.setVisibility(View.VISIBLE);

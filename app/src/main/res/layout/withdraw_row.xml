@@ -1,181 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-    android:background="@color/navyBlue"
-xmlns:app="http://schemas.android.com/apk/res-auto">
-
-<androidx.cardview.widget.CardView
-    android:id="@+id/llContainerCardView"
     android:layout_width="match_parent"
-    android:layout_height="170dp"
-    android:layout_marginStart="10dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginEnd="10dp"
-    android:layout_marginBottom="10dp"
+    android:layout_height="wrap_content"
     android:background="@color/navyBlue"
-    app:cardCornerRadius="10dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
+    <androidx.cardview.widget.CardView
+        android:id="@+id/llContainerCardView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:id="@+id/dateLL"
-            android:layout_marginLeft="5dp"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_gravity="center"
-                android:src="@drawable/email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Date: "
-                android:textSize="30sp"
-                android:textColor="#000000"
-                android:textStyle="bold" />
+        android:layout_height="170dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/navyBlue"
+        app:cardCornerRadius="10dp">
 
-            <TextView
-                android:id="@+id/tvDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="11-11-11"
-                android:textColor="#000000"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/dateLL"
                 android:layout_marginLeft="5dp"
-                android:textSize="30sp"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_gravity="center"
+                    android:src="@drawable/email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date: "
+                    android:textSize="30sp"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="11-11-11"
+                    android:textColor="#000000"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
 
 
 
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_below="@id/dateLL"
-            android:id="@+id/sysLL"
-            android:layout_marginLeft="5dp"
-            android:textColor="#000000"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:src="@drawable/ic_baseline_phone_24"
-                android:layout_gravity="center"
-                android:layout_marginRight="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_below="@id/dateLL"
+                android:id="@+id/sysLL"
+                android:layout_marginLeft="5dp"
                 android:textColor="#000000"
-                android:text="Systolic: "
-                android:textSize="30sp" />
-            <TextView
-                android:id="@+id/tvSystolic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:text="120"
-                android:textSize="30sp" />
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:src="@drawable/ic_baseline_phone_24"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:text="Systolic: "
+                    android:textSize="30sp" />
+                <TextView
+                    android:id="@+id/tvSystolic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:text="120"
+                    android:textSize="30sp" />
 
-        </LinearLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/diasLL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/sysLL"
-            android:layout_marginLeft="5dp"
-            android:textColor="#000000">
-
-            <ImageView
-                android:id="@+id/dollarIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_baseline_attach_money_24"
-                android:text="T Id: "
-                android:textColor="#000000"
-                android:textSize="30sp" />
-
-            <TextView
-                android:id="@+id/tvDiastolic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/dollarIcon"
-                android:text="80"
-                android:textColor="#000000"
-                android:textSize="30sp" />
-
-        </RelativeLayout>
+            </LinearLayout>
 
 
-        <RelativeLayout
-            android:id="@+id/heartLL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/diasLL"
-            android:layout_marginLeft="5dp">
-
-            <TextView
-                android:id="@+id/tranTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
-                android:text="Tid"
-                android:textColor="#000000"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-
-            <EditText
-                android:id="@+id/roomAvgPricHotel"
+            <RelativeLayout
+                android:id="@+id/diasLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_below="@id/sysLL"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@+id/saveButton"
-                android:layout_toRightOf="@+id/tranTitle"
-                android:background="@drawable/button_bg_hollow"
-                android:hint="Transaction Id"
-                android:inputType="text"
-                android:padding="10dp" />
+                android:textColor="#000000">
 
-            <ImageView
-                android:id="@+id/saveButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:layout_toLeftOf="@id/cancelButton"
-                android:src="@drawable/ic_baseline_save_24"
-                android:text="Systolic: "
-                android:textColor="#000000"
-                android:textSize="30sp" />
+                <ImageView
+                    android:id="@+id/dollarIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_baseline_attach_money_24"
+                    android:text="T Id: "
+                    android:textColor="#000000"
+                    android:textSize="30sp" />
 
-            <ImageView
-                android:id="@+id/cancelButton"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/tvDiastolic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/dollarIcon"
+                    android:text="80"
+                    android:textColor="#000000"
+                    android:textSize="30sp" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/heartLL"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="16dp"
-                android:src="@drawable/ic_baseline_cancel_24"
-                android:text="Systolic: "
-                android:textColor="#000000"
-                android:textSize="30sp" />
+                android:layout_below="@id/diasLL"
+                android:layout_marginLeft="5dp">
+
+                <TextView
+                    android:id="@+id/tranTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:text="Tid"
+                    android:textColor="#000000"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+
+                <EditText
+                    android:id="@+id/roomAvgPricHotel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@+id/saveButton"
+                    android:layout_toRightOf="@+id/tranTitle"
+                    android:background="@drawable/button_bg_hollow"
+                    android:hint="Transaction Id"
+                    android:inputType="text"
+                    android:padding="10dp" />
+
+                <ImageView
+                    android:id="@+id/saveButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_toLeftOf="@id/cancelButton"
+                    android:src="@drawable/ic_baseline_save_24"
+                    android:text="Systolic: "
+                    android:textColor="#000000"
+                    android:textSize="30sp" />
+
+                <ImageView
+                    android:id="@+id/cancelButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/ic_baseline_cancel_24"
+                    android:text="Systolic: "
+                    android:textColor="#000000"
+                    android:textSize="30sp" />
+
+
+            </RelativeLayout>
+
+
+
 
 
         </RelativeLayout>
 
-
-
-
-
-    </RelativeLayout>
-
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>

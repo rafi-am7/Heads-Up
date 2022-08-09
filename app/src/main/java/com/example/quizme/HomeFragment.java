@@ -5,26 +5,19 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
-
+import com.example.quizme.AdminPanelActivities.AdminPanel;
 import com.example.quizme.Classes.Data;
-import com.example.quizme.databinding.ActivityQuizBinding;
 import com.example.quizme.databinding.FragmentHomeBinding;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 
 
 public class HomeFragment extends Fragment {
@@ -46,6 +39,8 @@ public class HomeFragment extends Fragment {
     FirebaseFirestore database;
     String welcomeText;
 
+    private int adminRule;
+    private String uid;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,6 +48,7 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         database = FirebaseFirestore.getInstance();
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         database.collection("Random").document("tMLcP2edIs6jsB8JUxec").addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -64,10 +60,51 @@ public class HomeFragment extends Fragment {
                     Data data = value.toObject(Data.class);//getData(User.class);
                     welcomeText = data.getHomeScreenText();
                     if(welcomeText!=null)
-                    binding.vpnTVHome.setText(welcomeText);
+                        binding.vpnTVHome.setText(welcomeText);
 
 
                 }
+
+            }
+        });
+        database.collection("users").document(uid).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error!=null)
+                {
+
+                    Toast.makeText(getContext(),"failed",Toast.LENGTH_SHORT).show();
+                }
+                if(value!=null)
+                {
+                    User user = value.toObject(User.class);//getData(User.class);
+                    adminRule = user.getAdminRole();
+                    if(adminRule>0)
+                    {
+                        binding.manageAdmin.setVisibility(View.VISIBLE);
+                    }
+
+                    //Toast.makeText(WaitingActivity.this, "Current data:" + user.getIndex(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+        binding.startNowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), QuizActivity.class);
+                //intent.putExtra("uid",uid);
+                startActivity(intent);
+                getActivity().finish();
+
+            }
+        });
+        binding.manageAdmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), AdminPanel.class);
+                startActivity(intent);
+                //getActivity().finish();
 
             }
         });
@@ -105,16 +142,7 @@ public class HomeFragment extends Fragment {
                 startActivity(new Intent(getContext(), SpinnerActivity.class));
             }
         });*/
-        binding.startNowButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), QuizActivity.class);
-                //intent.putExtra("uid",uid);
-                startActivity(intent);
-                getActivity().finish();
 
-            }
-        });
 
 
         // Inflate the layout for this fragment

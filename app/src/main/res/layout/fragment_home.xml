@@ -55,6 +55,15 @@
                 />
         </FrameLayout>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:id="@+id/manageAdmin"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_baseline_manage"
+            android:visibility="gone"
+            android:layout_alignParentBottom="true" />
+
 
 
 

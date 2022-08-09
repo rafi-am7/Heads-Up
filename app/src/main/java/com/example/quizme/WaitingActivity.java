@@ -36,7 +36,7 @@ public class WaitingActivity extends AppCompatActivity {
     private int correctAnswers = 0;
     private int totalPoint=0, quizPoint=-0, rewardPoint=0;
     private int index = 0;
- //   int POINTS = 10;
+    //   int POINTS = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,12 +123,12 @@ public class WaitingActivity extends AppCompatActivity {
             }
         });
 
-       // long points =  * POINTS;
+        // long points =  * POINTS;
 
-       // binding.score.setText(String.format("%d/%d", correctAnswers, totalQuestions));
+        // binding.score.setText(String.format("%d/%d", correctAnswers, totalQuestions));
         //45214binding.earnedCoins.setText(String.valueOf(points));
 
-/*        FirebaseFirestore database = FirebaseFirestore.getInstance();*/
+        /*        FirebaseFirestore database = FirebaseFirestore.getInstance();*/
 
         /*database.collection("users")
                 .document(FirebaseAuth.getInstance().getUid())
@@ -139,7 +139,7 @@ public class WaitingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 startActivity(new Intent(WaitingActivity.this, QuizActivity.class));
                 finishAffinity();*/
-            }
+    }
     void showAds(){
         AdRequest adRequest = new AdRequest.Builder().build();
 

@@ -126,7 +126,7 @@ public class ProfileFragment extends Fragment {
                             }
                         }
                     });
-                   // final StorageReference reference = storage.getReference().child("Profiles").child(uid);
+                    // final StorageReference reference = storage.getReference().child("Profiles").child(uid);
                     storage.getReference().child("Profiles").child(uid).putFile(selectedImage).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -213,32 +213,30 @@ public class ProfileFragment extends Fragment {
 
                         // Toast.makeText(getContext(),""+totalPoint,Toast.LENGTH_SHORT).show();
 
-                          user = value.toObject(User.class);
+                        user = value.toObject(User.class);
 
-                            index =  user.getIndex();
-                            correctAnswers = user.getCorrectAnswer();
-                            totalPoint = user.getTotalPoints();
-                            quizPoint = user.getQuizPoints();
-                            rewardPoint = user.getRewardPoints();
-                            email = user.getEmail();
-                            userName = user.getUsername();
-                            fullName= user.getName();
-                            binding.tvName.setText(fullName);
-                            binding.tvTotalPoints.setText(""+totalPoint);
-                            binding.tvPlayPoints.setText(""+quizPoint);
-                            binding.tvRewardPoints.setText(""+rewardPoint);
-                            binding.tvEmail.setText(""+email);
-                            binding.tvUserName.setText(""+userName);
-                            try {
-                                profilePicURL = user.getProfile();
-                                if(profilePicURL!=null)
-                                    Glide.with(getContext())
-                                            .load(profilePicURL)
-                                            .into(binding.userAvatarIV);
-                            }catch (Exception e)
-                            {
-                                Toast.makeText(getContext(),"Profile Picture Loading Failed!",Toast.LENGTH_SHORT).show();
-                            }
+                        index =  user.getIndex();
+                        correctAnswers = user.getCorrectAnswer();
+                        totalPoint = user.getTotalPoints();
+                        quizPoint = user.getQuizPoints();
+                        rewardPoint = user.getRewardPoints();
+                        email = user.getEmail();
+                        fullName= user.getName();
+                        binding.tvName.setText(fullName);
+                        binding.tvTotalPoints.setText(""+totalPoint);
+                        binding.tvPlayPoints.setText(""+quizPoint);
+                        binding.tvRewardPoints.setText(""+rewardPoint);
+                        binding.tvEmail.setText(""+email);
+                        try {
+                            profilePicURL = user.getProfile();
+                            if(profilePicURL!=null)
+                                Glide.with(getContext())
+                                        .load(profilePicURL)
+                                        .into(binding.userAvatarIV);
+                        }catch (Exception e)
+                        {
+                            Toast.makeText(getContext(),"Profile Picture Loading Failed!",Toast.LENGTH_SHORT).show();
+                        }
 
                         //binding.userAvatarIV.setImageURI(profilePicURL);
 

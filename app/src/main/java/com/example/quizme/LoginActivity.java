@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         editor = sharedPreferences.edit();
 
-       auth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
 
         dialog = new ProgressDialog(this);
         dialog.setMessage("Logging in...");
@@ -145,7 +145,7 @@ public class LoginActivity extends AppCompatActivity {
                     binding.errorMessageTextLogin.setTextColor(ContextCompat.getColor(LoginActivity.this, R.color.color_error));
                     binding.errorMessageTextLogin.setVisibility(View.VISIBLE);
                 }
-               // binding.markerProgressLogIn.setVisibility(View.GONE);
+                // binding.markerProgressLogIn.setVisibility(View.GONE);
 
 
             }
