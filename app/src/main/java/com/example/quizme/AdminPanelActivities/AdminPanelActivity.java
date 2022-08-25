@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.quizme.User;
+import com.example.quizme.Classes.User;
 import com.example.quizme.databinding.ActivityAdminPanelBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;

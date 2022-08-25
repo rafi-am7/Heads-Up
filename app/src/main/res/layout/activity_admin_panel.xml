@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".AdminPanelActivities.AdminPanelActivity">
     <LinearLayout
-        android:background="@drawable/ic_admin_background"
+        android:background="@drawable/ic_splash_screen__7_"
         android:layout_width="match_parent"
         android:gravity="center_vertical"
         android:layout_height="match_parent"

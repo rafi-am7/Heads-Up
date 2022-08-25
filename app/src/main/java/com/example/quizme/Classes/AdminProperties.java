@@ -1,11 +1,16 @@
 package com.example.quizme.Classes;
 
-public class Data {
+public class AdminProperties {
     private String homeScreenText="";
     private int pointsPerAdd=0, pointsPerQuiz=0;
+    private int index;
 
-    public Data() {
+    public AdminProperties() {
     }
+
+    public int getIndex() {return index;}
+
+    public void setIndex(int index) {this.index = index;}
 
     public String getHomeScreenText() {
         return homeScreenText;

@@ -12,7 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.quizme.AdminPanelActivities.AdminPanelActivity;
-import com.example.quizme.Classes.Data;
+import com.example.quizme.Classes.AdminProperties;
+import com.example.quizme.Classes.User;
 import com.example.quizme.databinding.FragmentHomeBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -58,7 +59,7 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(getContext(), "failed", Toast.LENGTH_SHORT).show();
                 }
                 if (value != null) {
-                    Data data = value.toObject(Data.class);//getData(User.class);
+                    AdminProperties data = value.toObject(AdminProperties.class);//getData(User.class);
                     welcomeText = data.getHomeScreenText();
                     if(welcomeText!=null)
                         binding.vpnTVHome.setText(welcomeText);

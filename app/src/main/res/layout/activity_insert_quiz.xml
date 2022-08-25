@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".AdminPanelActivities.InsertQuizActivity">
     <LinearLayout
+        android:background="@drawable/ic_splash_screen__7_"
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="match_parent">
@@ -68,7 +69,7 @@
             android:inputType="textMultiLine"
             android:padding="10dp" />
         <EditText
-            android:id="@+id/Option4AdminET"
+            android:id="@+id/option4AdminET"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -80,7 +81,7 @@
             android:inputType="textMultiLine"
             android:padding="10dp" />
         <EditText
-            android:id="@+id/OptionCorrectET"
+            android:id="@+id/optionCorrectET"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"

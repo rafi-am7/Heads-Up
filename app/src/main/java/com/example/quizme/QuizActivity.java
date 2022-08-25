@@ -1,42 +1,26 @@
 package com.example.quizme;
-import java.net.DatagramSocket;
 import java.net.InetAddress;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
-import android.content.pm.PackageManager;
-import android.icu.number.FormattedNumber;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
-import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Looper;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.quizme.Classes.Data;
+import com.example.quizme.Classes.AdminProperties;
+import com.example.quizme.Classes.Quiz;
+import com.example.quizme.Classes.User;
 import com.example.quizme.databinding.ActivityQuizBinding;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.LoadAdError;
@@ -47,19 +31,9 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResponse;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -67,24 +41,19 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.io.IOException;
-import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 public class QuizActivity extends AppCompatActivity {
 
 
     private ActivityQuizBinding binding;
-    private ArrayList<Question> questions;
+    private ArrayList<Quiz> questions;
     private int index = 0;
-    private Question question;
+    private Quiz question;
     private CountDownTimer timer;
     private FirebaseFirestore database;
     private ProgressDialog progressDialog;
@@ -126,45 +95,12 @@ public class QuizActivity extends AppCompatActivity {
                 });
                 showAds();
 
-/*        AdRequest adRequest = new AdRequest.Builder().build();
-
-        RewardedAd.load(QuizActivity.this, "ca-app-pub-3940256099942544/5224354917",
-                adRequest, new RewardedAdLoadCallback() {
-                    @Override
-                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                        // Handle the error.
-                        Log.d("reward", loadAdError.getMessage());
-                        mRewardedAd = null;
-                    }
-
-                    @Override
-                    public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
-                        mRewardedAd = rewardedAd;
-                        Log.d("reward", "Ad was loaded.");
-                    }
-                });*/
-
-/*
-                String ip;
-                try(final DatagramSocket socket = new DatagramSocket()){
-                    socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
-                    ip = socket.getLocalAddress().getHostAddress();
-                    Toast.makeText()
-                } catch (SocketException e) {
-                    e.printStackTrace();
-                } catch (UnknownHostException e) {
-                    e.printStackTrace();
-                }
-*/
-
-
-
             }
 
         });
         Random random = new Random();
         final int rand = random.nextInt(12);
-        database.collection("Random").document("tMLcP2edIs6jsB8JUxec").addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        database.collection("AdminProperties").document("hup").addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error != null) {
@@ -172,7 +108,7 @@ public class QuizActivity extends AppCompatActivity {
                     Toast.makeText(QuizActivity.this, "failed", Toast.LENGTH_SHORT).show();
                 }
                 if (value != null) {
-                    Data data = value.toObject(Data.class);//getData(User.class);
+                    AdminProperties data = value.toObject(AdminProperties.class);//getData(User.class);
                     pointPerQuiz = data.getPointsPerQuiz();
                     pointPerAd = data.getPointsPerAdd();
 
@@ -212,7 +148,7 @@ public class QuizActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             for (DocumentSnapshot snapshot : queryDocumentSnapshots) {
-                                Question question =  snapshot.toObject(Question.class);
+                                Quiz question =  snapshot.toObject(Quiz.class);
                                 questions.add(question);
                             }
                             setNextQuestion();
@@ -220,7 +156,7 @@ public class QuizActivity extends AppCompatActivity {
                     });
                 } else {
                     for (DocumentSnapshot snapshot : queryDocumentSnapshots) {
-                        Question question = snapshot.toObject(Question.class);
+                        Quiz question = snapshot.toObject(Quiz.class);
                         questions.add(question);
                     }
                     setNextQuestion();
@@ -239,73 +175,6 @@ public class QuizActivity extends AppCompatActivity {
     }
 
 
-
-
-/*    private void checkLocationPermission() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
-            getLocation();
-        } else {
-            ActivityCompat.requestPermissions(this
-                    , new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
-        }
-    }*/
-
-/*
-    private void getLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-            @Override
-            public void onComplete(@NonNull Task<Location> task) {
-                Location location = task.getResult();
-                //if(location!=null)
-                {
-                    try
-                    {
-                        Toast.makeText(QuizActivity.this,"Location helw",Toast.LENGTH_SHORT).show();
-
-                        Geocoder geocoder = new Geocoder(QuizActivity.this, Locale.getDefault());
-
-                        List<Address> addresses = geocoder.getFromLocation(
-                                location.getLatitude(),location.getLongitude(),1
-                        );
-                        locationCountry = ""+addresses.get(0).getCountryName();
-                        //Toast.makeText(QuizActivity.this,"Location"+locationCountry,Toast.LENGTH_SHORT).show();
-
-                    }
-                    catch (IOException e)
-                    {
-                        Toast.makeText(QuizActivity.this,"Error!",Toast.LENGTH_SHORT).show();
-                        e.printStackTrace();
-                    }
-
-
-
-            }
-        });
-    }
-*/
-
-
-/*    void showAnswer() {
-        if (question.getAnswer().equals(binding.option1.getText().toString()))
-            binding.option1.setBackground(getResources().getDrawable(R.drawable.option_right));
-        else if (question.getAnswer().equals(binding.option2.getText().toString()))
-            binding.option2.setBackground(getResources().getDrawable(R.drawable.option_right));
-        else if (question.getAnswer().equals(binding.option3.getText().toString()))
-            binding.option3.setBackground(getResources().getDrawable(R.drawable.option_right));
-        else if (question.getAnswer().equals(binding.option4.getText().toString()))
-            binding.option4.setBackground(getResources().getDrawable(R.drawable.option_right));
-    }*/
 
     void setNextQuestion() {
 
@@ -484,32 +353,7 @@ public class QuizActivity extends AppCompatActivity {
                 break;
         }
     }
-    /*  void checkAvailableConnection() {
-          ConnectivityManager connMgr = (ConnectivityManager) this
-                  .getSystemService(Context.CONNECTIVITY_SERVICE);
 
-          final android.net.NetworkInfo wifi = connMgr
-                  .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-          final android.net.NetworkInfo mobile = connMgr
-                  .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-
-          if (wifi.isAvailable()) {
-
-              WifiManager myWifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
-              WifiInfo myWifiInfo = myWifiManager.getConnectionInfo();
-              int ipAddress = myWifiInfo.getIpAddress();
-              System.out.println("WiFi address is "
-                      + android.text.format.Formatter.formatIpAddress(ipAddress));
-
-          } else if (mobile.isAvailable()) {
-
-              GetLocalIpAddress();
-              Toast.makeText(this, "3G Available", Toast.LENGTH_LONG).show();
-          } else {
-              Toast.makeText(this, "No Network Available", Toast.LENGTH_LONG).show();
-          }
-      }*/
     private String GetLocalIpAddress() {
         try {
             for (Enumeration<NetworkInterface> en = NetworkInterface
@@ -579,3 +423,127 @@ public class QuizActivity extends AppCompatActivity {
     }*/
 /*
  */
+
+
+
+/*    private void checkLocationPermission() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+            getLocation();
+        } else {
+            ActivityCompat.requestPermissions(this
+                    , new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+        }
+    }*/
+
+/*
+    private void getLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+            @Override
+            public void onComplete(@NonNull Task<Location> task) {
+                Location location = task.getResult();
+                //if(location!=null)
+                {
+                    try
+                    {
+                        Toast.makeText(QuizActivity.this,"Location helw",Toast.LENGTH_SHORT).show();
+
+                        Geocoder geocoder = new Geocoder(QuizActivity.this, Locale.getDefault());
+
+                        List<Address> addresses = geocoder.getFromLocation(
+                                location.getLatitude(),location.getLongitude(),1
+                        );
+                        locationCountry = ""+addresses.get(0).getCountryName();
+                        //Toast.makeText(QuizActivity.this,"Location"+locationCountry,Toast.LENGTH_SHORT).show();
+
+                    }
+                    catch (IOException e)
+                    {
+                        Toast.makeText(QuizActivity.this,"Error!",Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
+
+
+
+            }
+        });
+    }
+*/
+
+
+/*    void showAnswer() {
+        if (question.getAnswer().equals(binding.option1.getText().toString()))
+            binding.option1.setBackground(getResources().getDrawable(R.drawable.option_right));
+        else if (question.getAnswer().equals(binding.option2.getText().toString()))
+            binding.option2.setBackground(getResources().getDrawable(R.drawable.option_right));
+        else if (question.getAnswer().equals(binding.option3.getText().toString()))
+            binding.option3.setBackground(getResources().getDrawable(R.drawable.option_right));
+        else if (question.getAnswer().equals(binding.option4.getText().toString()))
+            binding.option4.setBackground(getResources().getDrawable(R.drawable.option_right));
+    }*/
+/*        AdRequest adRequest = new AdRequest.Builder().build();
+
+        RewardedAd.load(QuizActivity.this, "ca-app-pub-3940256099942544/5224354917",
+                adRequest, new RewardedAdLoadCallback() {
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error.
+                        Log.d("reward", loadAdError.getMessage());
+                        mRewardedAd = null;
+                    }
+
+                    @Override
+                    public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
+                        mRewardedAd = rewardedAd;
+                        Log.d("reward", "Ad was loaded.");
+                    }
+                });*/
+
+/*
+                String ip;
+                try(final DatagramSocket socket = new DatagramSocket()){
+                    socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
+                    ip = socket.getLocalAddress().getHostAddress();
+                    Toast.makeText()
+                } catch (SocketException e) {
+                    e.printStackTrace();
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                }
+*/
+    /*  void checkAvailableConnection() {
+          ConnectivityManager connMgr = (ConnectivityManager) this
+                  .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+          final android.net.NetworkInfo wifi = connMgr
+                  .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+          final android.net.NetworkInfo mobile = connMgr
+                  .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+          if (wifi.isAvailable()) {
+
+              WifiManager myWifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
+              WifiInfo myWifiInfo = myWifiManager.getConnectionInfo();
+              int ipAddress = myWifiInfo.getIpAddress();
+              System.out.println("WiFi address is "
+                      + android.text.format.Formatter.formatIpAddress(ipAddress));
+
+          } else if (mobile.isAvailable()) {
+
+              GetLocalIpAddress();
+              Toast.makeText(this, "3G Available", Toast.LENGTH_LONG).show();
+          } else {
+              Toast.makeText(this, "No Network Available", Toast.LENGTH_LONG).show();
+          }
+      }*/

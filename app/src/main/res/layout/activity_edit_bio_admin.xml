@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AdminPanelActivities.WithdrawRequestAdminPanelActivity$EditBioAdminActivity">
+    tools:context=".AdminPanelActivities.EditBioAdminActivity">
     <LinearLayout
-        android:background="@drawable/ic_admin_background"
+        android:background="@drawable/ic_splash_screen__7_"
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="match_parent">

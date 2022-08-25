@@ -1,12 +1,13 @@
-package com.example.quizme;
+package com.example.quizme.Classes;
 
-public class Question {
-    private String question, option1, option2, option3, option4, answer;
+public class Quiz {
+    private String question, option1, option2, option3, option4;
+    int answer;
 
-    public Question() {
+    public Quiz() {
     }
 
-    public Question(String question, String option1, String option2, String option3, String option4, String answer) {
+    public Quiz(String question, String option1, String option2, String option3, String option4, int answer) {
         this.question = question;
         this.option1 = option1;
         this.option2 = option2;
@@ -55,11 +56,11 @@ public class Question {
         this.option4 = option4;
     }
 
-    public String getAnswer() {
+    public int getAnswer() {
         return answer;
     }
 
-    public void setAnswer(String answer) {
+    public void setAnswer(int answer) {
         this.answer = answer;
     }
 }

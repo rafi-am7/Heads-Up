@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home_menu, menu);
+        getMenuInflater().inflate(R.menu.log_out_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -92,11 +92,20 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
 
             //log out
-            case R.id.logOut:
+/*            case R.id.logOut:
                 PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
                 auth.signOut();
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 finish();
+                return true;*/
+            case R.id.logOutItemMenu:
+                PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
+                auth.signOut();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                finish();
+                return true;
+            case R.id.changePassItemMenu:
+                startActivity(new Intent(MainActivity.this, ChangePassActivity.class));
                 return true;
 
             default:

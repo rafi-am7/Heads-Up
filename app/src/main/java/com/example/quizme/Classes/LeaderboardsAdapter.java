@@ -1,4 +1,4 @@
-package com.example.quizme;
+package com.example.quizme.Classes;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.quizme.R;
 import com.example.quizme.databinding.RowLeaderboardsBinding;
 
 import java.util.ArrayList;
