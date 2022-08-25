@@ -2,19 +2,24 @@ package com.example.quizme.Classes;
 
 public class Quiz {
     private String question, option1, option2, option3, option4;
-    int answer;
+    int answer,index;
 
     public Quiz() {
     }
 
-    public Quiz(String question, String option1, String option2, String option3, String option4, int answer) {
+    public Quiz(int index, String question, String option1, String option2, String option3, String option4, int answer) {
         this.question = question;
         this.option1 = option1;
         this.option2 = option2;
         this.option3 = option3;
         this.option4 = option4;
         this.answer = answer;
+        this.index = index;
     }
+
+    public int getIndex() {return index;}
+
+    public void setIndex(int index) {this.index = index;}
 
     public String getQuestion() {
         return question;
