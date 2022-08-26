@@ -6,6 +6,7 @@
     android:background="@drawable/ic_app_background"
     android:layout_height="match_parent"
     android:paddingTop="48dp"
+    android:id="@+id/activity_quiz"
     tools:context=".QuizActivity">
 
 
@@ -128,11 +129,11 @@
         android:textColor="@color/color_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/quitBtn"
+        app:layout_constraintStart_toEndOf="@+id/showAdsBtn"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
     <Button
-        android:id="@+id/quitBtn"
+        android:id="@+id/showAdsBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -148,6 +149,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

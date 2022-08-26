@@ -1,13 +1,19 @@
 package com.example.quizme;
+import java.io.IOException;
 import java.net.InetAddress;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Geocoder;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +24,13 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.quizme.Classes.AdminProperties;
 import com.example.quizme.Classes.Quiz;
 import com.example.quizme.Classes.User;
@@ -34,17 +47,28 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpEntity;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpResponse;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.HttpClient;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.methods.HttpPost;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.impl.client.DefaultHttpClient;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Locale;
 import java.util.Random;
 
 public class QuizActivity extends AppCompatActivity {
@@ -52,6 +76,7 @@ public class QuizActivity extends AppCompatActivity {
 
     private ActivityQuizBinding binding;
     private ArrayList<Quiz> questions;
+    String countryName;
     private int index = 0;
     private Quiz question;
     private CountDownTimer timer;
@@ -66,6 +91,9 @@ public class QuizActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationProviderClient;
     private String locationCountry = "Heads up";
     private boolean addFlag = false;
+    RequestQueue queue;
+    boolean flagCountry = false;
+    private Snackbar snackbar;
 
 
 
@@ -83,7 +111,7 @@ public class QuizActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        binding.quitBtn.setOnClickListener(new View.OnClickListener() {
+        binding.showAdsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -134,17 +162,17 @@ public class QuizActivity extends AppCompatActivity {
                     rewardPoint = user.getRewardPoints();
 
 
-                    Toast.makeText(QuizActivity.this, "Current data:" + user.getIndex(), Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(QuizActivity.this, "Current data:" + user.getIndex(), Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
 
-        database.collection("quizes").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        database.collection("quizzes").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if (queryDocumentSnapshots.getDocuments().size() < 5) {
-                    database.collection("quizes").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    database.collection("quizzes").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             for (DocumentSnapshot snapshot : queryDocumentSnapshots) {
@@ -231,6 +259,22 @@ public class QuizActivity extends AppCompatActivity {
 
     }
     void showAds(){
+        if (snackbar != null) snackbar.dismiss();
+        if(!getCountry())
+        {
+            snackbar = Snackbar.make(findViewById(R.id.activity_quiz), "Please connect a USA VPN!", Snackbar.LENGTH_INDEFINITE);
+            snackbar.setAction("Ok", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    snackbar.dismiss();
+                }
+            });
+            snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.color_white));
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.color_error));
+            snackbar.show();
+            return;
+        }
         AdRequest adRequest = new AdRequest.Builder().build();
 
         RewardedAd.load(this, "ca-app-pub-3940256099942544/5224354917",
@@ -259,7 +303,7 @@ public class QuizActivity extends AppCompatActivity {
                     Log.d("rewardAd", "The user earned the reward.");
                     int rewardAmount = rewardItem.getAmount();
                     String rewardType = rewardItem.getType();
-                    Toast.makeText(getApplicationContext(),"Ad loaded",Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getApplicationContext(),"Ad loaded",Toast.LENGTH_SHORT).show();
                     totalPoint+=pointPerAd;
                     rewardPoint+=pointPerAd;
                     database
@@ -276,6 +320,64 @@ public class QuizActivity extends AppCompatActivity {
             Log.d("rewardAd", "The rewarded ad wasn't ready yet.");
             Toast.makeText(this,"Ad not loaded",Toast.LENGTH_SHORT).show();
         }
+    }
+    private boolean getCountry(){
+
+        queue = Volley.newRequestQueue(this);
+        String url = "https://sobujbari.com/getIPDetails";
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+               // countryName = response.toString();
+
+                try {
+                    countryName="";
+                    JSONObject object=new JSONObject(response);
+/*                    JSONArray array=object.getJSONArray("users");
+                    for(int i=0;i<array.length();i++) {
+                        JSONObject object1=array.getJSONObject(i);*/
+                        countryName =object.getString("country");
+                        if(countryName.equals("United States")){
+                            flagCountry=true;
+
+                        if(snackbar!=null)snackbar.dismiss();
+                    snackbar = Snackbar.make(findViewById(R.id.activity_quiz), "USA VPN Connected! Now see ads", Snackbar.LENGTH_INDEFINITE);
+                    snackbar.setAction("Ok", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            snackbar.dismiss();
+                        }
+                    });
+                    snackbar.setActionTextColor(ContextCompat.getColor(QuizActivity.this, R.color.color_white));
+                    View sbView = snackbar.getView();
+                    sbView.setBackgroundColor(ContextCompat.getColor(QuizActivity.this, R.color.color_success));
+                    snackbar.show();
+                        }
+                    //Toast.makeText(QuizActivity.this,"Country: "+countryName,Toast.LENGTH_SHORT).show();
+
+/*                        textView.setText(name);
+                    }*/
+                } catch (JSONException e) {
+                     Toast.makeText(QuizActivity.this,"Try again",Toast.LENGTH_SHORT).show();
+
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("error",error.toString());
+            }
+        });
+        queue.add(request);
+        if(flagCountry){
+            flagCountry=false;
+            return true;
+        }
+        return false;
+       // countryName = ""+queue.getResponseDelivery();
+      //  Toast.makeText(QuizActivity.this,"Country: "+queue,Toast.LENGTH_SHORT).show();
+
     }
 
     public void onClick(View view) {
@@ -300,6 +402,22 @@ public class QuizActivity extends AppCompatActivity {
 
                 break;
             case R.id.submitBtn:
+                if (snackbar != null) snackbar.dismiss();
+                if(!getCountry())
+                {
+                    snackbar = Snackbar.make(findViewById(R.id.activity_quiz), "connect USA VPN and wait!", Snackbar.LENGTH_INDEFINITE);
+                    snackbar.setAction("Ok", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            snackbar.dismiss();
+                        }
+                    });
+                    snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.color_white));
+                    View sbView = snackbar.getView();
+                    sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.color_error));
+                    snackbar.show();
+                    break;
+                }
                 if(addFlag==false)
                 {
                     Toast.makeText(QuizActivity.this,"Please see adds for \n atleast one times!",Toast.LENGTH_SHORT).show();
@@ -354,131 +472,11 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
-    private String GetLocalIpAddress() {
-        try {
-            for (Enumeration<NetworkInterface> en = NetworkInterface
-                    .getNetworkInterfaces(); en.hasMoreElements();) {
-                NetworkInterface intf = en.nextElement();
-                for (Enumeration<InetAddress> enumIpAddr = intf
-                        .getInetAddresses(); enumIpAddr.hasMoreElements();) {
-                    InetAddress inetAddress = enumIpAddr.nextElement();
-                    if (!inetAddress.isLoopbackAddress()) {
-                        return inetAddress.getHostAddress().toString();
-                    }
-                }
-            }
-        } catch (SocketException ex) {
-            return "ERROR Obtaining IP";
-        }
-        return "No IP Available";
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void getIp() {
-        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
-        Toast.makeText(this,"Ip Address: "+ Formatter.formatIpAddress( wifiManager.getConnectionInfo().getIpAddress()),Toast.LENGTH_SHORT ).show();
-/*        ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        Network[] networks = cm.getAllNetworks();
-        for(int i = 0; i < networks.length; i++) {*/
-
-        // NetworkCapabilities caps = cm.getNetworkCapabilities(networks[i]);
-        //Toast.makeText(this,"Network : "+i+ " "+networks[i].toString(),Toast.LENGTH_SHORT ).show();
-        //Toast.makeText(this,"Vpn Capability: "+i+"Cap"+caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_VPN),Toast.LENGTH_SHORT ).show();
 
 
-/*
-            Log.i(TAG, "" + i + ": " + networks[i].toString());
-            Log.i(TAG, "VPN transport is: " + caps.hasTransport(NetworkCapabilities.TRANSPORT_VPN));
-            Log.i(TAG, "NOT_VPN capability is: " + caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_VPN));
-*/
-
-    }
 }
 
- /*   @Override
-    public void onLocationChanged(@NonNull Location location) {
 
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-    }
-
-    @Override
-    public void onProviderEnabled(@NonNull String provider) {
-    }
-
-    @Override
-    public void onProviderDisabled(@NonNull String provider) {
-    }
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-        super.onPointerCaptureChanged(hasCapture);
-    }
-    private void grantPermission(){ 
-    }
-    private void isLocationEnabled(){
-
-    }*/
-/*
- */
-
-
-
-/*    private void checkLocationPermission() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
-            getLocation();
-        } else {
-            ActivityCompat.requestPermissions(this
-                    , new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
-        }
-    }*/
-
-/*
-    private void getLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-            @Override
-            public void onComplete(@NonNull Task<Location> task) {
-                Location location = task.getResult();
-                //if(location!=null)
-                {
-                    try
-                    {
-                        Toast.makeText(QuizActivity.this,"Location helw",Toast.LENGTH_SHORT).show();
-
-                        Geocoder geocoder = new Geocoder(QuizActivity.this, Locale.getDefault());
-
-                        List<Address> addresses = geocoder.getFromLocation(
-                                location.getLatitude(),location.getLongitude(),1
-                        );
-                        locationCountry = ""+addresses.get(0).getCountryName();
-                        //Toast.makeText(QuizActivity.this,"Location"+locationCountry,Toast.LENGTH_SHORT).show();
-
-                    }
-                    catch (IOException e)
-                    {
-                        Toast.makeText(QuizActivity.this,"Error!",Toast.LENGTH_SHORT).show();
-                        e.printStackTrace();
-                    }
-
-
-
-            }
-        });
-    }
-*/
 
 
 /*    void showAnswer() {
@@ -521,29 +519,3 @@ public class QuizActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 */
-    /*  void checkAvailableConnection() {
-          ConnectivityManager connMgr = (ConnectivityManager) this
-                  .getSystemService(Context.CONNECTIVITY_SERVICE);
-
-          final android.net.NetworkInfo wifi = connMgr
-                  .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-          final android.net.NetworkInfo mobile = connMgr
-                  .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-
-          if (wifi.isAvailable()) {
-
-              WifiManager myWifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
-              WifiInfo myWifiInfo = myWifiManager.getConnectionInfo();
-              int ipAddress = myWifiInfo.getIpAddress();
-              System.out.println("WiFi address is "
-                      + android.text.format.Formatter.formatIpAddress(ipAddress));
-
-          } else if (mobile.isAvailable()) {
-
-              GetLocalIpAddress();
-              Toast.makeText(this, "3G Available", Toast.LENGTH_LONG).show();
-          } else {
-              Toast.makeText(this, "No Network Available", Toast.LENGTH_LONG).show();
-          }
-      }*/
