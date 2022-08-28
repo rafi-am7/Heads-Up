@@ -45,7 +45,9 @@ public class SignupActivity extends AppCompatActivity {
         binding.signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 registerUser();
+
             }
         });
         binding.signInButton.setOnClickListener(new View.OnClickListener() {
@@ -130,6 +132,11 @@ public class SignupActivity extends AppCompatActivity {
                                     }
                                 }
                             });
+                    binding.userFullNameSU.getText().clear();
+                    binding.userEmailSU.getText().clear();
+                    binding.userPhoneSU.getText().clear();
+                    binding.userPasswordSU.getText().clear();
+
 
 
 

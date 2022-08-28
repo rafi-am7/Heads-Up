@@ -74,6 +74,8 @@ public class LoginActivity extends AppCompatActivity {
         binding.forgetPassButtonLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this, ForgetPassActivity.class));
+                finish();
 
             }
         });
@@ -138,6 +140,8 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();
                     }
+                    binding.userEmailLogIn.getText().clear();
+                    binding.userPasswordLogIn.getText().clear();
 
                 } else {
                     //progressBar.setVisibility(View.GONE);

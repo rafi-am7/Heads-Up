@@ -87,41 +87,30 @@ public class ChangePassActivity extends AppCompatActivity {
                     return;
                 }
                 progressBar.setVisibility(View.VISIBLE);
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
-                reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        User userDataType = snapshot.getValue(User.class);
-                        if (oldp.equals(userDataType.getPass())) {
+                if (true) {
 
-                            mAuth.getCurrentUser().updatePassword(newp).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        reference.child("password").setValue(newp);
-                                        errorMessage.setTextColor(ContextCompat.getColor(ChangePassActivity.this, R.color.color_success));
-                                        errorMessage.setText("Password has changed successfully!");
-                                        errorMessage.setVisibility(View.VISIBLE);
+                    mAuth.getCurrentUser().updatePassword(newp).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                //reference.child("password").setValue(newp);
+                                errorMessage.setTextColor(ContextCompat.getColor(ChangePassActivity.this, R.color.color_success));
+                                errorMessage.setText("Password has changed successfully!");
+                                errorMessage.setVisibility(View.VISIBLE);
 
-                                    } else {
-                                        errorMessage.setTextColor(ContextCompat.getColor(ChangePassActivity.this, R.color.color_error));
-                                        errorMessage.setText("Password change Failed!");
-                                        errorMessage.setVisibility(View.VISIBLE);
+                            } else {
+                                errorMessage.setTextColor(ContextCompat.getColor(ChangePassActivity.this, R.color.color_error));
+                                errorMessage.setText("Password change Failed!");
+                                errorMessage.setVisibility(View.VISIBLE);
 
-                                    }
-                                }
-                            });
-                        } else {
-                            oldPassET.setError("Wrong password!");
-                            oldPassET.requestFocus();
+                            }
                         }
-                    }
+                    });
+                } else {
+                    oldPassET.setError("Wrong password!");
+                    oldPassET.requestFocus();
+                }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
 
 
                 progressBar.setVisibility(View.GONE);

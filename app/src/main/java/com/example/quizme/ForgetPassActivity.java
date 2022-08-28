@@ -84,6 +84,7 @@ public class ForgetPassActivity extends AppCompatActivity {
                     errorMassage.setText("Password reset link sent to your email.");
                     errorMassage.setTextColor(ContextCompat.getColor(ForgetPassActivity.this, R.color.color_success));
                     errorMassage.setVisibility(View.VISIBLE);
+                    emailEditText.getText().clear();
 
                 } else {
                     errorMassage.setText("Account not exit. Please sign up.");
